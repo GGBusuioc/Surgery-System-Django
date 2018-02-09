@@ -4,9 +4,7 @@ import requests
 
 
 patient_queue = []
-docs = []
 rooms = [1,2,3,4,5,6,7,8,9,10]
-
 doctors_avail = []
 rooms_busy = []
 
@@ -23,21 +21,16 @@ def checkin(request, patient_id):
         patient_id = int(patient_id)
     except ValueError:
         raise Http404()
-    # search in doctors, if doctors avail then registeer else queue list
-    if not patient_queue:
-        patient_queue.append(patient_id)
+
+    patient_queue.append(patient_id)
+
     if doctors_avail:
         doctors_avail.pop(0)
         room_number = rooms[0]
         rooms.pop(0)
-        return HttpResponse("Please proceed to room %d with doctor %s" %  (rooms[0], doctors_avail))
-
-    if patient_id in patient_queue:
-        return HttpResponse("patient %d already in the queue!" % (patient_id))
+        return HttpResponse("Please proceed to room %d" %  (room_number))
     else:
-        patient_queue.append(patient_id)
-        return HttpResponse("The queue is %s" % patient_queue)
-
+        return HttpResponse("All doctors are busy right now, please relax in the waiting area. You are number %d in the queue." % (patient_queue.index(patient_id)+1))
 
 
 def delete(request, patient_id):
@@ -64,4 +57,4 @@ def login(request, doctor_id):
         raise Http404()
     doctors_avail.append(doctor_id)
     print(doctors_avail)
-    return HttpResponse("Doctor %d joined." % doctor_id)
+    return HttpResponse("Doctor %d joined." % (doctor_id))

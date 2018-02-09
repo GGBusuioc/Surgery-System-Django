@@ -6,7 +6,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path('position/(\d{3})/$', position),
     re_path('checkin/(\d{3})/$', checkin),
-    re_path('checkin/(\d{3})/(\d{2})/$', checkin),
     re_path('delete/(\d{3})/$', delete),
     path('doctors/', doctors),
     path('help/', help_view),
