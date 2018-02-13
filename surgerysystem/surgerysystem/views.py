@@ -55,13 +55,13 @@ def help_view(request):
 
 def login(request, doctor_id):
     password = "password"
-    # ask the user for a password and check if the third argument is the correct password
-    # if it is, send an ok which will be checked atthe client side 
-
     try:
         doctor_id = int(doctor_id)
     except ValueError:
         raise Http404()
+
+    if request.method == "GET":
+        return HttpResponse("%s" % password)
 
     if request.method == "POST":
         doctors_avail.append(doctor_id)

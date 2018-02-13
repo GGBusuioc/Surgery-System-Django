@@ -14,7 +14,6 @@ while True:
     else:
         print("Two params")
         print(param1 + " " + param2)
-
     if param1=="quit":
         b = requests.delete('http://localhost:8000/delete/'+param2+'/')
     if param1=="doctors":
@@ -24,7 +23,15 @@ while True:
     if param1=="position":
         b = requests.get('http://localhost:8000/'+param1+'/'+param2+'/')
     if param1=="login":
-        b = requests.post('http://localhost:8000/'+param1+'/'+param2+'/')
+        print("Please enter your password");
+        p = input()
+        # get the password from the server
+        r = requests.get('http://localhost:8000/'+param1+'/'+param2+'/')
+        if(str(p)==r.text):
+            print("You are succesfully logged in, id %d" % (int(param2)))
+            b = requests.post('http://localhost:8000/'+param1+'/'+param2+'/')
+        else:
+            print("Password was incorrect. Try loging in again.")
 
 
     print(b.text)
